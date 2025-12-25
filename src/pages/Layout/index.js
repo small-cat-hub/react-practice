@@ -42,7 +42,8 @@ const GeekLayout = () => {
   // 反向高亮
   // 1.获取当前的路由路径
   const location = useLocation()
-  const selectedKeys = location.pathname
+  // antd Menu 的 selectedKeys 期望是数组
+  const selectedKeys = [location.pathname]
 
   // 触发个人用户信息action
   const dispatch = useDispatch()
@@ -50,7 +51,8 @@ const GeekLayout = () => {
     dispatch(fetchUserInfo())
   },[dispatch])
 
-  const name = useSelector(state => state.user.userinfo.name)
+  // 使用可选链保护，避免 userinfo 为 undefined 时访问 name 抛错
+  const name = useSelector(state => state.user.userinfo?.name || '')
 
   // 退出登录确认回调
   const onConfirm = () => {
